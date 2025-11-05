@@ -27,4 +27,3 @@ Notes
 - Files are stored in `uploads/` and will be overwritten when a file with the same name is re-registered.
 - This implementation maps checksums by filename. For multi-user or collision-safe usage, extend the system to use user IDs or compute and index by file content hash instead.
 
-License: MIT
