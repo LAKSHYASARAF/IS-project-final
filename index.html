@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>File Integrity Checker</title>
+		<!-- Tailwind CDN for quick prototyping -->
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body class="bg-gray-50 text-gray-800">
+		<div class="max-w-4xl mx-auto py-12 px-4">
+			<h1 class="text-3xl font-semibold mb-6">File Integrity Checker</h1>
+
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					<div class="space-y-2 mb-6">
+						{% for category, msg in messages %}
+							{% if category == 'success' %}
+								<div class="rounded-md bg-green-50 border-l-4 border-green-400 p-4">
+									<p class="text-green-700">{{ msg }}</p>
+								</div>
+							{% else %}
+								<div class="rounded-md bg-red-50 border-l-4 border-red-400 p-4">
+									<p class="text-red-700">{{ msg }}</p>
+								</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				{% endif %}
+			{% endwith %}
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="bg-white shadow rounded-lg p-6">
+					<h2 class="text-xl font-medium mb-2">Register file</h2>
+					<p class="text-sm text-gray-600 mb-4">Upload a file to register its SHA256 checksum.</p>
+					<form method="post" action="{{ url_for('register') }}" enctype="multipart/form-data">
+						<input type="file" name="file" required class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-blue-600 file:text-white" />
+						<div class="mt-4">
+							<button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Register</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="bg-white shadow rounded-lg p-6">
+					<h2 class="text-xl font-medium mb-2">Verify file</h2>
+					<p class="text-sm text-gray-600 mb-4">Upload the same file to verify if it has changed since registration.</p>
+					<form method="post" action="{{ url_for('verify') }}" enctype="multipart/form-data">
+						<input type="file" name="file" required class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-gray-700 file:text-white" />
+						<div class="mt-4">
+							<button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800">Verify</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<footer class="text-sm text-gray-500 mt-8">
+				Files are saved into the <code class="bg-gray-100 px-1 rounded">uploads/</code> folder and checksums are stored in <code class="bg-gray-100 px-1 rounded">checksums.json</code>.
+			</footer>
+		</div>
+	</body>
+</html>
